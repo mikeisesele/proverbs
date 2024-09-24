@@ -26,11 +26,11 @@ spotless {
 }
 
 android {
-    namespace = "com.michael.template"
+    namespace = "com.michael.proverbs"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.michael.template"
+        applicationId = "com.michael.proverbs"
         minSdk = 28
         targetSdk = 33
         versionCode = 1
@@ -137,4 +137,9 @@ dependencies {
     // Compose Navigation
     implementation("androidx.navigation:navigation-compose:2.7.4")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
+    // easylog
+    implementation("com.github.mikeisesele:easylog:3.0.2")
+
+    implementation("com.google.code.gson:gson:2.10.1")
 }
