@@ -5,7 +5,9 @@ import android.content.SharedPreferences
 import androidx.room.Room
 import com.google.gson.Gson
 import com.michael.proverbs.core.data.AppDatabase
+import com.michael.proverbs.core.data.ProverbsDao
 import com.michael.proverbs.core.data.SharedPref
+import com.michael.proverbs.feature.proverbs.data.ProverbsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,6 +44,18 @@ object LocalModule {
         sharedPreferences: SharedPreferences,
     ): SharedPref {
         return SharedPref(sharedPreferences)
+    }
+
+    @Singleton
+    @Provides
+    fun provideProverbsDao(appDatabase: AppDatabase): ProverbsDao {
+        return appDatabase.proverbsDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideProverbsRepository(proverbsDao: ProverbsDao): ProverbsRepository {
+        return ProverbsRepository(proverbsDao)
     }
 
     @Singleton

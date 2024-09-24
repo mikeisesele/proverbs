@@ -1,11 +1,15 @@
 package com.michael.proverbs.core.common
 
+import android.app.Activity
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import com.michael.easylog.logE
+import com.michael.proverbs.core.base.util.titleCase
+import java.util.Locale
 
 fun displayToast(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
@@ -16,8 +20,31 @@ fun Dp.toPx(): Int = LocalDensity.current.run {
     roundToPx()
 }
 
+// Helper function to convert Dp to pixels
+fun Dp.toPx(density: Density): Float = with(density) { this@toPx.toPx() }
 
-fun Context.readFromAssets(fileName: String) : String {
+fun String.customTitleCase(): String {
+    val src = this
+    return buildString {
+        if (src.isNotEmpty()) {
+            append(src[0].uppercase(Locale.getDefault()))
+        }
+        if (src.length > 1) {
+            append(src.substring(1).lowercase(Locale.getDefault()))
+        }
+    }
+}
+
+fun String.sentenceCase(): String {
+    val src = this
+
+    return src.split(" ")
+        .joinToString(" ") { it.customTitleCase() }
+}
+
+
+
+fun Activity.readFromAssets(fileName: String) : String {
     return safeReturnableOperation (
         operation = {
             assets.open(fileName)
@@ -32,6 +59,9 @@ fun Context.readFromAssets(fileName: String) : String {
     ).orEmpty()
 }
 
+fun Context.readFromRawResource(resourceId: Int): String {
+    return resources.openRawResource(resourceId).bufferedReader().use { it.readText() }
+}
 
 /**
  * Safely executes an operation by wrapping it in a try-catch block. The operation to be invoked

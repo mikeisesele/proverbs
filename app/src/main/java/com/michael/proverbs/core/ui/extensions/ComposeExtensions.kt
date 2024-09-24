@@ -7,9 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -74,3 +78,22 @@ fun getSimplePluralResource(
     @PluralsRes id: Int,
     count: Int,
 ) = pluralResource(id = id, count = count, count)
+
+
+@Composable
+fun boldTexStyle(size: Int, color: Color = Color.Black): TextStyle {
+    return TextStyle(
+        color = color,
+        fontSize = size.sp,
+        fontWeight = FontWeight.Bold,
+    )
+}
+
+@Composable
+fun mediumTexStyle(size: Int, color: Color = Color.Black): TextStyle {
+    return TextStyle(
+        color = color,
+        fontSize = size.sp,
+        fontWeight = FontWeight.Medium,
+    )
+}

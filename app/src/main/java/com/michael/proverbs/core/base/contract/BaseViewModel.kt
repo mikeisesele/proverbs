@@ -8,9 +8,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -23,7 +26,10 @@ abstract class BaseViewModel<ViewState : BaseState, Action>(
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<ViewState> = MutableStateFlow(initialState)
-    val state: StateFlow<ViewState> = _state.asStateFlow()
+    val state: StateFlow<ViewState> = _state.asStateFlow().onStart {
+        emit(initialState)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), initialState)
+
 
     private val eventsFlow = Channel<ViewEvent>(
         capacity = Int.MAX_VALUE,
