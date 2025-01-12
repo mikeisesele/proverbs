@@ -20,7 +20,7 @@ class ProverbsRepository @Inject constructor(
     private val favoriteMutex = Mutex()
 
 
-    suspend fun getProverbs(): Flow<List<ChapterEntity?>> = proverbDao.getAllChapters().asFlow()
+    suspend fun getChapters(): Flow<List<ChapterEntity?>> = proverbDao.getAllChapters().asFlow()
 
     suspend fun getProverb(chapter: String) = proverbDao.getChapterById(chapter).asFlow()
 
@@ -56,5 +56,9 @@ class ProverbsRepository @Inject constructor(
             }
             proverbDao.insertVerse(verseEntity)
         }
+    }
+
+    suspend fun getFavoriteVerses(): Flow<List<VerseEntity>> {
+        return proverbDao.getFavoriteVerses().reversed().asFlow()
     }
 }

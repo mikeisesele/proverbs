@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Proverbs Buddy</string>
+    <string name="favourite_proverbs">Favourite Proverbs</string>
+    <string name="checked_icon">Checked icon</string>
+    <string name="proverbs_verse">Proverbs %1$s, verse %2$s</string>
+    <string name="chapters">chapters</string>
+    <string name="no_proverb_searched">No proverb searched</string>
+    <string name="no_matching_proverbs_found">No matching proverbs found.</string>
+    <string name="removed_from_favorites">Removed from favorites</string>
+    <string name="added_to_favorites">Added to favorites</string>
 </resources>

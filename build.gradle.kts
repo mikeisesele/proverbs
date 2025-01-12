@@ -5,6 +5,7 @@ plugins {
     id("com.google.dagger.hilt.android") version "2.44.2" apply false
     id("com.diffplug.spotless") version "6.17.0" apply false
     id("io.gitlab.arturbosch.detekt") version "1.18.1" apply false
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10" apply false
 }
 
 

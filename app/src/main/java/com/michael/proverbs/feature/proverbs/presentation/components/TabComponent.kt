@@ -6,6 +6,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,31 +42,34 @@ fun TabRowComponent(
 
     Row(
         modifier = modifier
-            .horizontalScroll(scrollState)
-            .padding(vertical = 16.dp, horizontal = 16.dp),
+            .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
 
         val tabWidths = remember { mutableStateMapOf<ScreenView, Dp>() }
 
         ScreenView.values().toList().forEach { screenView ->
-            TabComponent(selected = selectedTab == screenView, onClick = {
-                onTabSelected(screenView)
-                coroutineScope.launch {
-                    val tabWidth = tabWidths[screenView]?.toPx(density) ?: 0f
-
-                    val position = tabWidths.entries.filter { it.key.ordinal <= screenView.ordinal }
-                        .sumOf { it.value.toPx(density).toDouble() }.toFloat()
-
+            TabComponent(
+                modifier = Modifier.weight(1f),
+                selected = selectedTab == screenView,
+                onClick = {
+                    onTabSelected(screenView)
                     coroutineScope.launch {
-                        scrollState.animateScrollTo(position.toInt() - (tabWidth / 2).toInt())
-                    }
+                        val tabWidth = tabWidths[screenView]?.toPx(density) ?: 0f
 
-                }
-            }) {
+                        val position =
+                            tabWidths.entries.filter { it.key.ordinal <= screenView.ordinal }
+                                .sumOf { it.value.toPx(density).toDouble() }.toFloat()
+
+                        coroutineScope.launch {
+                            scrollState.animateScrollTo(position.toInt() - (tabWidth / 2).toInt())
+                        }
+
+                    }
+                }) {
                 Text(text = screenView.title, style = boldTexStyle(
                     size = 18,
-                    color = if (selectedTab == screenView) Color.Black.copy(
+                    color = if (selectedTab == screenView) Color.White.copy(
                         alpha = 0.8f
                     ) else Color.Black.copy(alpha = 0.4f)
                 ), modifier = Modifier.onSizeChanged { size ->
@@ -77,14 +81,20 @@ fun TabRowComponent(
 }
 
 @Composable
-fun TabComponent(selected: Boolean, onClick: () -> Unit, content: @Composable () -> Unit) {
+fun TabComponent(
+    modifier: Modifier,
+    selected: Boolean,
+    onClick: () -> Unit,
+    content: @Composable () -> Unit
+) {
 
     Box(
-        modifier = Modifier
+        modifier = modifier
+            .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
             .background(
-                if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
-                else MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+                if (selected) Color.Black.copy(alpha = 0.8f)
+                else Color.Black.copy(alpha = 0.3f)
             )
             .clickable(role = Role.Tab, onClick = onClick)
             .padding(horizontal = 18.dp, vertical = 10.dp), contentAlignment = Alignment.Center

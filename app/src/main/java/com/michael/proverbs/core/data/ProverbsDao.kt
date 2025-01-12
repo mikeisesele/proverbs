@@ -46,4 +46,7 @@ interface ProverbsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertVerse(event: VerseEntity)
 
+    // Query to retrieve all favorite verses
+    @Query("SELECT * FROM verse WHERE isFavorite = 1")
+    suspend fun getFavoriteVerses(): List<VerseEntity>
 }

@@ -1,8 +1,6 @@
 package com.michael.proverbs.core.base.model
 
-import androidx.compose.runtime.Immutable
-
-@Immutable
+@androidx.compose.runtime.Immutable
 data class ImmutableList<out T>(val data: List<T>) : List<T> by data
 
 fun <T> List<T>.toImmutableList(): ImmutableList<T> = ImmutableList(this)

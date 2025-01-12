@@ -1,5 +1,6 @@
 package com.michael.proverbs.feature.proverbs.domain
 
+import com.michael.proverbs.core.common.sentenceCase
 import com.michael.proverbs.feature.proverbs.domain.model.domainmodel.Chapter
 import com.michael.proverbs.feature.proverbs.domain.model.domainmodel.ProverbsModel
 import com.michael.proverbs.feature.proverbs.domain.model.domainmodel.Verse
@@ -28,7 +29,7 @@ fun Chapter.toChapterEntity(): ChapterEntity {
 
 fun Verse.toVerseEntity(chapter: String): VerseEntity =
     VerseEntity(
-        verseText = text,
+        verseText = text.sentenceCase(),
         verseNumber = verse,
         chapterNumber = chapter
     )

@@ -7,6 +7,7 @@ plugins {
     id("kotlin-kapt")
     id("com.diffplug.spotless")
     id("io.gitlab.arturbosch.detekt")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 spotless {
@@ -130,18 +131,27 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.0")
 
     // Encrypted prefs
-
     implementation("androidx.security:security-crypto:1.0.0")
 
     // Detekt
     compileOnly("io.gitlab.arturbosch.detekt:detekt-api:1.21.0")
 
     // Compose Navigation
-    implementation("androidx.navigation:navigation-compose:2.7.4")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+//    implementation("androidx.navigation:navigation-compose:2.8.1")
+    implementation("androidx.navigation:navigation-compose:2.8.0-rc01")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+
+//    implementation("androidx.navigation:navigation-compose:2.8.0-rc01")
+//    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     // easylog
-    implementation("com.github.mikeisesele:easylog:3.0.2")
+    //  implementation("com.github.mikeisesele:easylog:3.0.2")
+
+//    implementation("com.mikeisesele:kompanion:1.4.0")
+    implementation("com.github.mikeisesele:Kompanion:1.4.4")
 
     implementation("com.google.code.gson:gson:2.10.1")
+
+
 }
