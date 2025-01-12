@@ -8,4 +8,9 @@
     <string name="no_matching_proverbs_found">No matching proverbs found.</string>
     <string name="removed_from_favorites">Removed from favorites</string>
     <string name="added_to_favorites">Added to favorites</string>
+    <string name="search">Search</string>
+    <string name="no_favourite_verses">No Favourite Verses</string>
+    <string name="proverbs">Proverbs</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
 </resources>

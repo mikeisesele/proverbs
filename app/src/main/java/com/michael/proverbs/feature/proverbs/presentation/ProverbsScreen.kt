@@ -125,7 +125,7 @@ fun ProverbsScreen(
         modifier = modifier.fillMaxSize(),
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
-            var text = "Proverbs"
+            var text = stringResource(R.string.proverbs)
             state.currentRandomVerse?.verseNumber?.let {
                 text = if (state.screenView == ScreenView.CARD_VIEW) {
                     "Proverbs ${state.currentRandomVerse.chapterNumber}: verse ${state.currentRandomVerse.verseNumber}"
@@ -177,7 +177,7 @@ fun ProverbsScreen(
                     ) {
                         BottomBarItem(
                             modifier = Modifier.padding(start = 16.dp),
-                            text = "Previous",
+                            text = stringResource(R.string.previous),
                             icon = Icons.Outlined.KeyboardArrowLeft,
                             onTabSelected = {
                                 onViewAction(ProverbsViewAction.PreviousVerse)
@@ -186,7 +186,7 @@ fun ProverbsScreen(
 
                         BottomBarItem(
                             modifier = Modifier.padding(end = 16.dp),
-                            text = "Next",
+                            text = stringResource(R.string.next),
                             icon = Icons.Outlined.KeyboardArrowRight,
                             onTabSelected = {
                                 onViewAction(ProverbsViewAction.NextVerse)
@@ -321,10 +321,7 @@ fun BottomBarItem(
         Image(
             modifier = Modifier
                 .padding(bottom = 8.dp)
-                .size(30.dp)
-                .applyIf(text == "Favorites") {
-                    size(20.dp)
-                },
+                .size(30.dp) ,
             imageVector = icon,
             contentDescription = text,
             colorFilter = ColorFilter.tint(

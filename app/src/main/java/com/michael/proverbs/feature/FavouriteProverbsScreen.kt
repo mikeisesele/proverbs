@@ -101,7 +101,7 @@ fun FavouriteProverbsScreen(
                                 searchBarComponentVisible = !searchBarComponentVisible
                             }),
                         imageVector = Icons.Default.Search,
-                        contentDescription = "Search",
+                        contentDescription = stringResource(R.string.search),
                         tint = Color.White
                     )
                 }
@@ -117,11 +117,13 @@ fun FavouriteProverbsScreen(
         ) {
 
             if (state.searchedFavouriteProverbs.isEmpty() && state.favouriteVerses.isEmpty() && !searchBarComponentVisible ) {
-                Text(text = "No Favourite Verses")
+                Text(text = stringResource(R.string.no_favourite_verses))
             } else {
                 if (searchBarComponentVisible) {
                     Column(
-                        modifier = Modifier.wrapContentHeight().padding(it),
+                        modifier = Modifier
+                            .wrapContentHeight()
+                            .padding(it),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -145,7 +147,6 @@ fun FavouriteProverbsScreen(
                             emptyProverbText = stringResource(R.string.no_proverb_searched),
                             noMatchText = stringResource(R.string.no_matching_proverbs_found),
                             onToggleFavorite = { proverb ->
-                                // Show toast depending on the current favorite status
                                 if (proverb.isFavorite) {
                                     displayToast(
                                         context,
@@ -158,7 +159,6 @@ fun FavouriteProverbsScreen(
                                     )
                                 }
 
-                                // Dispatch the toggle action to your ViewModel or parent
                                 onViewAction(ProverbsViewAction.ToggleFavorite(proverb))
                             },
                             modifier = Modifier.weight(9f)
@@ -172,7 +172,7 @@ fun FavouriteProverbsScreen(
                             .background(Color.White)
                             .fillMaxSize()
                             .applyIf(!searchBarComponentVisible) {
-                              padding(it)
+                                padding(it)
                             },
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -189,9 +189,7 @@ fun FavouriteProverbsScreen(
                                 verse = verse,
                                 toggleFavorite = {
                                     onViewAction(
-                                        ProverbsViewAction.ToggleFavorite(
-                                            verse
-                                        )
+                                        ProverbsViewAction.ToggleFavorite(verse)
                                     )
                                 },
                             )
