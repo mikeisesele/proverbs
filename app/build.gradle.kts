@@ -30,7 +30,7 @@ spotless {
 
 android {
     namespace = "com.michael.proverbs"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.michael.proverbs"
@@ -152,6 +152,11 @@ dependencies {
     implementation("com.github.mikeisesele:Kompanion:1.4.4")
 
     implementation("com.google.code.gson:gson:2.10.1")
+
+    val work_version = "2.10.0"
+    implementation( "androidx.work:work-runtime-ktx:$work_version")
+    implementation( "androidx.work:work-multiprocess:$work_version")
+    implementation("androidx.hilt:hilt-work:1.0.0")
 
 
 }

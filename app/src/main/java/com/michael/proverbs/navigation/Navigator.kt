@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.michael.proverbs.core.ui.extensions.rememberStateWithLifecycle
 import com.michael.proverbs.feature.FavouriteProverbsScreen
 import com.michael.proverbs.feature.FavouriteProverbsScreenDestination
@@ -14,18 +15,21 @@ import com.michael.proverbs.feature.proverbs.presentation.ProverbsScreenDestinat
 import com.michael.proverbs.feature.proverbs.presentation.ProverbsViewModel
 
 @Composable
-fun Navigator(navController: NavHostController) {
+fun Navigator(navController: NavHostController, closeApp: () -> Unit) {
 
     val viewModel = viewModel<ProverbsViewModel>()
     val state by rememberStateWithLifecycle(viewModel.state)
 
-    NavHost(navController = navController, startDestination = ProverbsScreenDestination) {
+    NavHost(navController = navController, startDestination = ProverbsScreenDestination(null, null, null)) {
 
         composable<ProverbsScreenDestination> {
+            val args = it.toRoute<ProverbsScreenDestination>()
             ProverbsScreen(
+                args = args,
                 onFavouriteClick = { navController.navigate(FavouriteProverbsScreenDestination) },
                 state = state,
-                onViewAction = viewModel::onViewAction
+                onViewAction = viewModel::onViewAction,
+                closeApp = closeApp
             )
         }
 

@@ -50,6 +50,8 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.content.FileProvider
 import androidx.core.view.drawToBitmap
 import com.bugfender.sdk.ui.FeedbackActivity.REQUEST_CODE
+import com.michael.kompanion.utils.kompanionAllNotNull
+import com.michael.kompanion.utils.kompanionIfAllNotNull
 import com.michael.proverbs.R
 import com.michael.proverbs.core.common.displayToast
 import com.michael.proverbs.core.common.readFromRawResource
@@ -60,6 +62,7 @@ import com.michael.proverbs.core.ui.theme.Dimens
 import com.michael.proverbs.feature.proverbs.domain.contract.ProverbsState
 import com.michael.proverbs.feature.proverbs.domain.contract.ProverbsViewAction
 import com.michael.proverbs.feature.proverbs.domain.model.ScreenView
+import com.michael.proverbs.feature.proverbs.domain.model.entity.VerseEntity
 import com.michael.proverbs.feature.proverbs.presentation.components.ProverbsCardContent
 import com.michael.proverbs.feature.proverbs.presentation.components.ProverbsListContent
 import com.michael.proverbs.feature.proverbs.presentation.components.SearchBarAnimated
@@ -71,15 +74,21 @@ import java.io.FileOutputStream
 import kotlin.reflect.KFunction1
 
 @Serializable
-object ProverbsScreenDestination
+data class ProverbsScreenDestination(
+    val title: String?,
+    val chapter: String?,
+    val verse: String?
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProverbsScreen(
     modifier: Modifier = Modifier,
     onFavouriteClick: () -> Unit,
+    closeApp: () -> Unit,
     state: ProverbsState,
-    onViewAction: KFunction1<ProverbsViewAction, Unit>
+    onViewAction: KFunction1<ProverbsViewAction, Unit>,
+    args: ProverbsScreenDestination
 ) {
 
 
@@ -88,12 +97,21 @@ fun ProverbsScreen(
     var searchBarComponentVisible by remember {
         mutableStateOf(false)
     }
+    var pendingIntentHandled by remember {
+        mutableStateOf(false)
+    }
 
     BackHandler {
         if (searchBarComponentVisible) {
             searchBarComponentVisible = false
             onViewAction(ProverbsViewAction.SearchQuery(""))
         } else {
+            closeApp()
+        }
+    }
+
+    LaunchedEffect(key1 = args) {
+        if (kompanionAllNotNull(args.title, args.verse, args.chapter)) {
             onViewAction(ProverbsViewAction.SelectTab(ScreenView.CARD_VIEW))
         }
     }
@@ -218,7 +236,10 @@ fun ProverbsScreen(
                     onToggleFavorite = { proverb ->
                         // Show toast depending on the current favorite status
                         if (proverb.isFavorite) {
-                            displayToast(context, context.getString(R.string.removed_from_favorites))
+                            displayToast(
+                                context,
+                                context.getString(R.string.removed_from_favorites)
+                            )
                         } else {
                             displayToast(context, context.getString(R.string.added_to_favorites))
                         }
@@ -231,9 +252,26 @@ fun ProverbsScreen(
             } else {
                 when (state.screenView) {
                     ScreenView.CARD_VIEW -> {
+                        val data = if (kompanionAllNotNull(
+                                args.title,
+                                args.verse,
+                                args.chapter
+                            ) && !pendingIntentHandled
+                        ) {
+                            pendingIntentHandled = true
+                            VerseEntity(
+                                chapterNumber = args.chapter.orEmpty(),
+                                verseNumber = args.verse.orEmpty(),
+                                verseText = args.title.orEmpty(),
+                                isFavorite = false
+                            )
+
+                        } else {
+                            state.currentRandomVerse
+                        }
                         ProverbsCardContent(
                             modifier = modifier,
-                            currentRandomVerse = state.currentRandomVerse,
+                            currentRandomVerse = data,
                             toggleFavorite = {
                                 onViewAction(ProverbsViewAction.ToggleFavorite(it))
                             },
