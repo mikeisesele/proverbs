@@ -130,7 +130,7 @@ fun ProverbsScreen(
                 text = if (state.screenView == ScreenView.CARD_VIEW) {
                     "Proverbs ${state.currentRandomVerse.chapterNumber}: verse ${state.currentRandomVerse.verseNumber}"
                 } else {
-                    "Proverbs ${state.selectedChapter}: contains ${state.currentChapterVerses.size} verses"
+                    stringResource(R.string.book_of_proverbs)
                 }
             }
 

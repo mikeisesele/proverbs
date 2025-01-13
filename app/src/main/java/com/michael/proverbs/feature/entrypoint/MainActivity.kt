@@ -23,6 +23,7 @@ import com.michael.kompanion.utils.kompanionAllNotNull
 import com.michael.proverbs.core.common.displayToast
 import com.michael.proverbs.core.ui.theme.TemplateTheme
 import com.michael.proverbs.feature.notification.scheduleDailyAlarm
+import com.michael.proverbs.feature.notification.scheduleDailyWorkerSync
 import com.michael.proverbs.feature.proverbs.presentation.ProverbsScreen
 import com.michael.proverbs.feature.proverbs.presentation.ProverbsScreenDestination
 import com.michael.proverbs.navigation.Navigator
@@ -31,7 +32,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    lateinit var navController: NavHostController
+    private lateinit var navController: NavHostController
 
     companion object {
         private const val REQUEST_CODE_POST_NOTIFICATIONS = 1001
