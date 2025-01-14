@@ -35,12 +35,45 @@ fun String.customTitleCase(): String {
     }
 }
 
-fun String.sentenceCase(): String {
-    val src = this
+//fun String.sentenceCase(): String {
+//    val src = this
+//
+//    return src.split(" ")
+//        .joinToString(" ") { it.customTitleCase() }
+//}
 
-    return src.split(" ")
-        .joinToString(" ") { it.customTitleCase() }
+fun String.sentenceCase(): String {
+    // Trim leading and trailing spaces, just to clean up
+    val trimmed = this.trim()
+    if (trimmed.isEmpty()) return trimmed
+
+    // Convert entire string to lowercase
+    val lowerText = trimmed.lowercase()
+
+    val result = StringBuilder()
+
+    // We want to capitalize the first letter immediately
+    var shouldCapitalizeNext = true
+
+    for (char in lowerText) {
+        if (shouldCapitalizeNext && char.isLetter()) {
+            // Capitalize this character
+            result.append(char.uppercaseChar())
+            // Reset the flag
+            shouldCapitalizeNext = false
+        } else {
+            result.append(char)
+        }
+
+        // If we see a period, then we should capitalize the next letter
+        if (char == '.' || char == '!' || char == '?') {
+            shouldCapitalizeNext = true
+        }
+    }
+
+    return result.toString()
 }
+
 
 
 

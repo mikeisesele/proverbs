@@ -98,7 +98,7 @@ class ProverbsViewModel @Inject constructor(
         }
 
         val searched = if (query.isNotEmpty()) {
-            filteredVerses
+            filteredVerses.toSet().toList()
         } else {
             emptyList()
         }.toImmutableList()
